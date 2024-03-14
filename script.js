@@ -23,40 +23,50 @@ function findPiDigit() {
     let found = false;
     let buffer = "";
 
-    while (!found) {
-        const digit = iter.next().value;
-        buffer += digit;
-        if (buffer.length > inputNumber.length + 10) {
-            buffer = buffer.slice(-(inputNumber.length + 10));
-        }
-        if (buffer.slice(0, -5).includes(inputNumber)) {
-            found = true;
-            const startIndex = buffer.indexOf(inputNumber);
-            let before = "";
-            let after = buffer.slice(startIndex + inputNumber.length, startIndex + inputNumber.length + 5) + "...";
-            if(count >= 10){
-                before = buffer.slice(startIndex - 5, startIndex);
-                if(before != ""){
-                    before = "..." + before;
+    function updateResultDiv() {
+        if (!found) {
+            const digit = iter.next().value;
+            buffer += digit;
+            if (buffer.length > inputNumber.length + 10) {
+                buffer = buffer.slice(-(inputNumber.length + 10));
+            }
+            if (buffer.slice(0, -5).includes(inputNumber)) {
+                found = true;
+                const startIndex = buffer.indexOf(inputNumber);
+                let before = "";
+                let after = buffer.slice(startIndex + inputNumber.length, startIndex + inputNumber.length + 5) + "...";
+                if(count >= 10){
+                    before = buffer.slice(startIndex - 5, startIndex);
+                    if(before != ""){
+                        before = "..." + before;
+                    }
                 }
+                else{
+                    before = buffer.slice(0, startIndex).replace(/(\d)(\d)/, '$1.$2');
+                }
+                if(before == "3"){
+                    before = "3.";
+                }
+                if(inputNumber == 3){
+                    after = "." + after;
+                }
+                else if(before == ""){
+                    inputNumber = inputNumber.replace(/(\d)(\d)/, '$1.$2');
+                }
+                digits += `<span class="gray">${before}</span><span class="black">${inputNumber}</span><span class="gray">${after}</span>`;
+            }
+            count++;
+            if (count % 1000 == 0) {
+                resultDiv.innerHTML = `Digits calculated so far: ${count}<br>${digits}`;
+                setTimeout(updateResultDiv, 0);
             }
             else{
-                before = buffer.slice(0, startIndex).replace(/(\d)(\d)/, '$1.$2');
+                updateResultDiv();
             }
-            if(before == "3"){
-                before = "3.";
-            }
-            if(inputNumber == 3){
-                after = "." + after;
-            }
-            else if(before == ""){
-                inputNumber = inputNumber.replace(/(\d)(\d)/, '$1.$2');
-            }
-            digits += `<span class="gray">${before}</span><span class="black">${inputNumber}</span><span class="gray">${after}</span>`;
+        } else {
+            resultDiv.innerHTML = `Position (after "."): ${count-6}<br>${digits}`;
         }
-        count++;
-        if (count > 10000) break;
     }
 
-    resultDiv.innerHTML = `Position (After "."): ${count-6}<br>${digits}`;
+    updateResultDiv();
 }
