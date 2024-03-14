@@ -35,7 +35,10 @@ function findPiDigit() {
             let before = "";
             let after = buffer.slice(startIndex + inputNumber.length, startIndex + inputNumber.length + 5) + "...";
             if(count >= 10){
-                before = "..." + buffer.slice(startIndex - 5, startIndex);
+                before = buffer.slice(startIndex - 5, startIndex);
+                if(before != ""){
+                    before = "..." + before;
+                }
             }
             else{
                 before = buffer.slice(0, startIndex).replace(/(\d)(\d)/, '$1.$2');
