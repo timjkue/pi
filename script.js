@@ -16,6 +16,7 @@ function* generateDigitsOfPi() {
 
 function findPiDigit() {
     let inputNumber = document.getElementById("inputNumber").value;
+    const inputLength = inputNumber.length;
     const resultDiv = document.getElementById("result");
     const iter = generateDigitsOfPi();
     let digits = "";
@@ -27,15 +28,15 @@ function findPiDigit() {
         if (!found) {
             const digit = iter.next().value;
             buffer += digit;
-            if (buffer.length > inputNumber.length + 10) {
-                buffer = buffer.slice(-(inputNumber.length + 10));
+            if (buffer.length > inputLength + 10) {
+                buffer = buffer.slice(-(inputLength + 10));
             }
             if (buffer.slice(0, -5).includes(inputNumber)) {
                 found = true;
                 const startIndex = buffer.indexOf(inputNumber);
                 let before = "";
-                let after = buffer.slice(startIndex + inputNumber.length, startIndex + inputNumber.length + 5) + "...";
-                if(count >= 10 + inputNumber.length){
+                let after = buffer.slice(startIndex + inputLength, startIndex + inputLength + 5) + "...";
+                if(count >= 10 + inputLength){
                     before = buffer.slice(startIndex - 5, startIndex);
                     if(before != ""){
                         before = "..." + before;
@@ -63,11 +64,13 @@ function findPiDigit() {
             else{
                 updateResultDiv();
             }
-        } else if(document.getElementById("inputNumber").value.length > 3) {
-            resultDiv.innerHTML = `Position (after "."): ${count-5-document.getElementById("inputNumber").value.length},...,${count-6}<br>${digits}`;
-        } else if(document.getElementById("inputNumber").value.length == 3){
+        } else if(inputLength > 4) {
+            resultDiv.innerHTML = `Position (after "."): ${count-5-inputLength},${count-4-inputLength},...,${count-7},${count-6}<br>${digits}`;
+        } else if(inputLength == 4) {
+            resultDiv.innerHTML = `Position (after "."): ${count-9},${count-8},${count-7},${count-6}<br>${digits}`;
+        } else if(inputLength == 3){
             resultDiv.innerHTML = `Position (after "."): ${count-8},${count-7},${count-6}<br>${digits}`;
-        } else if(document.getElementById("inputNumber").value.length == 2){
+        } else if(inputLength== 2){
             resultDiv.innerHTML = `Position (after "."): ${count-7},${count-6}<br>${digits}`;
         } else {
             resultDiv.innerHTML = `Position (after "."): ${count-6}<br>${digits}`;
