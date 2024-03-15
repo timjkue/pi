@@ -64,7 +64,7 @@ function findPiDigit() {
                 updateResultDiv();
             }
         } else {
-            resultDiv.innerHTML = `Position (after "."): ${count-6}<br>${digits}`;
+            resultDiv.innerHTML = `Position (after "."): ${count-5-document.getElementById("inputNumber").value.length} - ${count-6}<br>${digits}`;
         }
     }
 
