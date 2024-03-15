@@ -63,8 +63,14 @@ function findPiDigit() {
             else{
                 updateResultDiv();
             }
+        } else if(document.getElementById("inputNumber").value.length > 3) {
+            resultDiv.innerHTML = `Position (after "."): ${count-5-document.getElementById("inputNumber").value.length},...,${count-6}<br>${digits}`;
+        } else if(document.getElementById("inputNumber").value.length == 3){
+            resultDiv.innerHTML = `Position (after "."): ${count-8},${count-7},${count-6}<br>${digits}`;
+        } else if(document.getElementById("inputNumber").value.length == 2){
+            resultDiv.innerHTML = `Position (after "."): ${count-7},${count-6}<br>${digits}`;
         } else {
-            resultDiv.innerHTML = `Position (after "."): ${count-5-document.getElementById("inputNumber").value.length} - ${count-6}<br>${digits}`;
+            resultDiv.innerHTML = `Position (after "."): ${count-6}<br>${digits}`;
         }
     }
 
